@@ -1,4 +1,4 @@
-package uml;
+package model.dto;
 
 import java.util.Objects;
 
@@ -6,7 +6,7 @@ import java.util.Objects;
  *
  * @author igor
  */
-public class Employee {
+public class EmployeeDTO {
     private int id;
     private String name;
     private String surname;
@@ -14,23 +14,25 @@ public class Employee {
     private String address;
     private String phone;
     private String email;
+    private double salary;
     
-    public Employee() {
+    public EmployeeDTO() {
     }
     
-    public Employee(String name, String surname, int age, String address,
-                    String phone, String email) {
+    public EmployeeDTO(String name, String surname, int age, String address,
+                    String phone, String email, double salary) {
         this.name = name;
         this.surname = surname;
         this.age = age;
         this.address = address;
         this.phone = phone;
         this.email = email;
+        this.salary = salary;
     } 
 
-    public Employee(int id, String name, String surname, int age, String address,
-                    String phone, String email) {
-        this(name, surname, age, address, phone, email);
+    public EmployeeDTO(int id, String name, String surname, int age,
+                       String address, String phone, String email, double salary) {
+        this(name, surname, age, address, phone, email, salary);
         this.id = id;
     }
 
@@ -90,22 +92,25 @@ public class Employee {
         this.email = email;
     }
 
-    @Override
-    public String toString() {
-        return "Employee{" + "id=" + id + ", name=" + name + ", surname=" +
-               surname + ", age=" + age + ", address=" + address + ", phone=" + 
-               phone + ", email=" + email + '}';
+    public double getSalary() {
+        return salary;
+    }
+
+    public void setSalary(double salary) {
+        this.salary = salary;
     }
 
     @Override
     public int hashCode() {
-        int hash = 5;
-        hash = 19 * hash + Objects.hashCode(this.name);
-        hash = 19 * hash + Objects.hashCode(this.surname);
-        hash = 19 * hash + this.age;
-        hash = 19 * hash + Objects.hashCode(this.address);
-        hash = 19 * hash + Objects.hashCode(this.phone);
-        hash = 19 * hash + Objects.hashCode(this.email);
+        int hash = 7;
+        hash = 97 * hash + Objects.hashCode(this.name);
+        hash = 97 * hash + Objects.hashCode(this.surname);
+        hash = 97 * hash + this.age;
+        hash = 97 * hash + Objects.hashCode(this.address);
+        hash = 97 * hash + Objects.hashCode(this.phone);
+        hash = 97 * hash + Objects.hashCode(this.email);
+        hash = 97 * hash + (int) (Double.doubleToLongBits(this.salary) ^
+                (Double.doubleToLongBits(this.salary) >>> 32));
         return hash;
     }
 
@@ -114,14 +119,15 @@ public class Employee {
         if (this == obj) {
             return true;
         }
-        if (obj == null) {
+        if (obj == null || getClass() != obj.getClass()) {
             return false;
         }
-        if (getClass() != obj.getClass()) {
-            return false;
-        }
-        final Employee other = (Employee) obj;
+        final EmployeeDTO other = (EmployeeDTO) obj;
         if (this.age != other.age) {
+            return false;
+        }
+        if (Double.doubleToLongBits(this.salary) !=
+            Double.doubleToLongBits(other.salary)) {
             return false;
         }
         if (!Objects.equals(this.name, other.name)) {
@@ -137,6 +143,13 @@ public class Employee {
             return false;
         }
         return Objects.equals(this.email, other.email);
-    }  
+    }
+
+    @Override
+    public String toString() {
+        return "EmployeeDTO{" + "id=" + id + ", name=" + name + ", surname="
+                + surname + ", age=" + age + ", address=" + address + ", phone="
+                + phone + ", email=" + email + ", salary=" + salary + '}';
+    }
 
 }

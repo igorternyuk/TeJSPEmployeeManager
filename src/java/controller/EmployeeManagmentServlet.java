@@ -11,21 +11,20 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import model.DAOEmployee;
-import uml.Employee;
+import model.EmployeeDAO;
+import model.dto.EmployeeDTO;
 
 /**
  *
  * @author igor
  */
-@WebServlet(name = "EmployeeServlet", urlPatterns = {"/employees"})
-public class EmployeeServlet extends HttpServlet {
+@WebServlet(name = "EmployeeManagmentServlet", urlPatterns = {"/employees.do"})
+public class EmployeeManagmentServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -40,10 +39,10 @@ public class EmployeeServlet extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
-            
-            List<Employee> data = new ArrayList<>();
-            Employee employee = new Employee();
-            DAOEmployee dao = new DAOEmployee();
+            /* TODO output your page here. You may use following sample code. */
+            List<EmployeeDTO> data = new ArrayList<>();
+            EmployeeDTO employee = new EmployeeDTO();
+            EmployeeDAO dao = new EmployeeDAO();
             String result;
             
             try{
@@ -55,6 +54,7 @@ public class EmployeeServlet extends HttpServlet {
                     String address = request.getParameter("inputAddress");
                     String phone= request.getParameter("inputPhone");
                     String email = request.getParameter("inputEmail");
+                    double salary = Double.parseDouble(request.getParameter("inputSalary"));
                     employee.setId(id);
                     employee.setName(name);
                     employee.setSurname(surname);
@@ -62,6 +62,7 @@ public class EmployeeServlet extends HttpServlet {
                     employee.setAddress(address);
                     employee.setPhone(phone);
                     employee.setEmail(email);
+                    employee.setSalary(salary);
                     if(dao.insert(employee)){
                         result = "Employee was successfully inserted to the database";
                     }
@@ -79,6 +80,7 @@ public class EmployeeServlet extends HttpServlet {
                     String address = request.getParameter("inputAddress");
                     String phone= request.getParameter("inputPhone");
                     String email = request.getParameter("inputEmail");
+                    double salary = Double.parseDouble(request.getParameter("inputSalary"));
                     employee.setId(id);
                     employee.setName(name);
                     employee.setSurname(surname);
@@ -86,6 +88,7 @@ public class EmployeeServlet extends HttpServlet {
                     employee.setAddress(address);
                     employee.setPhone(phone);
                     employee.setEmail(email);
+                    employee.setSalary(salary);
                     if(dao.update(employee)){
                         result = "Employee's information was successfully updated";
                     }
@@ -97,8 +100,8 @@ public class EmployeeServlet extends HttpServlet {
                 else if(request.getParameter("btnDelete") != null){
                     int id = Integer.parseInt(request.getParameter("inputID"));
                     if(dao.remove(id)){
-                        result = "Employee register with id" + String.valueOf(id) + 
-                                 "was successfully deleted";
+                        result = "Employee register with id = " + String.valueOf(id) + 
+                                 " was successfully deleted";
                     }
                     else{
                         result = "Could not delete register";
@@ -108,14 +111,14 @@ public class EmployeeServlet extends HttpServlet {
                 else if(request.getParameter("btnSearch") != null){
                     String filter = request.getParameter("comboSearch");
                     String rexExp = request.getParameter("txtRegExp");
-                    List<Employee> searchResult;
+                    List<EmployeeDTO> searchResult;
                     if(request.getParameter("checkBoxAge") != null){
                         int minAge = Integer.parseInt(request.getParameter("txtMinAge"));
                         int maxAge = Integer.parseInt(request.getParameter("txtMaxAge"));
-                        searchResult = dao.search(rexExp, filter, minAge, maxAge); 
+                        searchResult = dao.search(filter, rexExp, minAge, maxAge); 
                     }
                     else{
-                        searchResult = dao.search(rexExp, filter); 
+                        searchResult = dao.search(filter, rexExp); 
                     }
                     if(searchResult.isEmpty()){
                         result = "Cound not find employees with such parameters";
@@ -130,7 +133,7 @@ public class EmployeeServlet extends HttpServlet {
                     request.setAttribute("searchResult", searchResult);
                 } 
                 else if(request.getParameter("btnReadAll") != null){
-                    List<Employee> searchResult = dao.readAll();                    
+                    List<EmployeeDTO> searchResult = dao.readAll();                    
                     result = "Listado completo";
                     request.setAttribute("result", result);
                     request.setAttribute("searchResult", searchResult);
@@ -138,7 +141,7 @@ public class EmployeeServlet extends HttpServlet {
                 request.getRequestDispatcher("EmployeeView.jsp").forward(request, response);
             }
             catch(NumberFormatException ex){
-                Logger.getLogger(EmployeeServlet.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(EmployeeManagmentServlet.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
     }

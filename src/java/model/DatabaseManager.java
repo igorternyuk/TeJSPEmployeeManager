@@ -9,43 +9,61 @@ import java.util.logging.Logger;
 /**
  *
  * @author igor
+ * Last edited 27-10-2017
  */
+
 public class DatabaseManager {
-    private String driver;
-    private String server;
-    private String port;
-    private String url;
-    private String database;
-    private String user;
-    private String password;
-    private Connection con = null;
-    
-    public DatabaseManager() {
+    public static DatabaseManager instance = null;
+    private final String driver;
+    private final String server;
+    private final String port;
+    private final String url;
+    private final String database;
+    private final String user;
+    private final String password;
+    private Connection connection;
+ 
+    public static synchronized DatabaseManager getInstance(){
+        if(instance == null){
+            instance = new DatabaseManager();
+        }
+        return instance;
+    }
+
+    private DatabaseManager() {
         this.driver = "com.mysql.jdbc.Driver";
         this.server = "localhost";
         this.port = "3306";
         this.database = "db_employees";
         this.url = "jdbc:mysql://" + server+ ":" + port + "/" + database;
         this.user = "igorternyuk";
-        this.password = "1319";      
+        this.password = "1319";
+        try {
+            Class.forName(driver); 
+            connection = DriverManager.getConnection(url, user, password);
+        } catch (ClassNotFoundException | SQLException ex) {
+            Logger.getLogger(DatabaseManager.class.getName()).log(Level.SEVERE,
+                    null, ex);
+        }
     }
     
-
-    /*public DatabaseManager(String database, String user, String password) {
-        //
-        this.driver = "com.mysql.jdbc.Driver";
-        this.url = url;
+    public DatabaseManager(String driver, String server, String port, 
+                           String database, String user, String password) {
+        this.driver = driver;
+        this.server = server;
+        this.port = port;
+        this.database = database;
+        this.url = "jdbc:mysql://" + server+ ":" + port + "/" + database;
         this.user = user;
         this.password = password;
+        try {
+            Class.forName(driver); 
+            connection = DriverManager.getConnection(url, user, password);
+        } catch (ClassNotFoundException | SQLException ex) {
+            Logger.getLogger(DatabaseManager.class.getName()).log(Level.SEVERE,
+                    null, ex);
+        }
     }
-    
-    public DatabaseManager(String user, String password) {
-        //
-        this.driver = "com.mysql.jdbc.Driver";
-        this.url = url;
-        this.user = user;
-        this.password = password;
-    }*/
 
     public String getDriver() {
         return driver;
@@ -75,17 +93,11 @@ public class DatabaseManager {
         return password;
     }
 
-    public Connection getConnection() throws ClassNotFoundException, SQLException {
-        if (con == null) {
-            Class.forName(driver);
-            con = DriverManager.getConnection(url, user, password);      
-        }
-        return con;
+    public Connection getConnection() {
+        return connection;
     }
     
-    public void disconnect() throws SQLException{ 
-        con.close();
-         con = null;
-    }
-                
+    public void closeConnection() { 
+        instance = null;
+    }                
 }

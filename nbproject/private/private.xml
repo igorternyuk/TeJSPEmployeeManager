@@ -4,12 +4,20 @@
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
             <file>file:/home/igor/prj/java/TeJavaWebEmployeeManager/src/java/model/DAOEmployee.java</file>
-            <file>file:/home/igor/prj/java/TeJavaWebEmployeeManager/src/java/controller/EmployeeServlet.java</file>
-            <file>file:/home/igor/prj/java/TeJavaWebEmployeeManager/web/index.html</file>
-            <file>file:/home/igor/prj/java/TeJavaWebEmployeeManager/src/java/uml/Employee.java</file>
-            <file>file:/home/igor/prj/java/TeJavaWebEmployeeManager/src/java/model/DatabaseManager.java</file>
+            <file>file:/home/igor/prj/java/TeJavaWebEmployeeManager/src/java/controller/EmployeeManagmentServlet.java</file>
+            <file>file:/home/igor/prj/java/TeJavaWebEmployeeManager/src/java/uml/Error.java</file>
+            <file>file:/home/igor/prj/java/TeJavaWebEmployeeManager/web/index.jsp</file>
             <file>file:/home/igor/prj/java/TeJavaWebEmployeeManager/src/java/model/DAO.java</file>
             <file>file:/home/igor/prj/java/TeJavaWebEmployeeManager/web/EmployeeView.jsp</file>
+            <file>file:/home/igor/prj/java/TeJavaWebEmployeeManager/src/java/model/users.sql</file>
+            <file>file:/home/igor/prj/java/TeJavaWebEmployeeManager/src/java/controller/ValidateServlet.java</file>
+            <file>file:/home/igor/prj/java/TeJavaWebEmployeeManager/src/java/controller/LogoutServlet.java</file>
+            <file>file:/home/igor/prj/java/TeJavaWebEmployeeManager/src/java/view/MenuServlet.java</file>
+            <file>file:/home/igor/prj/java/TeJavaWebEmployeeManager/src/java/model/DAOUser.java</file>
+            <file>file:/home/igor/prj/java/TeJavaWebEmployeeManager/src/java/uml/Employee.java</file>
+            <file>file:/home/igor/prj/java/TeJavaWebEmployeeManager/src/java/uml/User.java</file>
+            <file>file:/home/igor/prj/java/TeJavaWebEmployeeManager/src/java/view/ErrorServlet.java</file>
+            <file>file:/home/igor/prj/java/TeJavaWebEmployeeManager/src/java/model/DatabaseManager.java</file>
         </group>
     </open-files>
 </project-private>
